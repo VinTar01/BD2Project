@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create_product.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <title>Crea Prodotto</title>
+    <style>
+        select[multiple] {
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+{% include 'header.html' %}
+{% include 'footer.html' %}
+
+    <h1>Crea un nuovo prodotto</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Product ID:</label>
+        <input type="text" name="product_id" required><br>
+
+        <label>Product Name:</label>
+        <input type="text" name="product_name" required><br>
+
+        <label>Actual Price:</label>
+        <input type="text" name="actual_price" placeholder="es. 1000 o ₹1000" required><br>
+
+        <label>Discount Percentage:</label>
+        <input type="text" name="discount_percentage" placeholder="es. 10" required><br>
+
+        <label>Rating:</label>
+        <input type="text" name="rating" required><br>
+
+        <label>About Product:</label>
+        <textarea name="about_product" required></textarea><br>
+
+        <label>Image Link:</label>
+        <input type="text" name="img_link" required><br>
+
+        <label>Product Link:</label>
+        <input type="text" name="product_link" required><br>
+
+        <label>Seleziona Categorie (usa Ctrl per selezioni multiple):</label><br>
+        <select name="category_names" multiple required>
+            {% for cat in categories %}
+                <option value="{{ cat }}">{{ cat }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="Crea Prodotto">
+    </form>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leggi Prodotto</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/read_product.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+  {% include 'header.html' %}
+  {% include 'footer.html' %}
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <h1>Leggi Prodotto</h1>
+
+  <p>Seleziona un prodotto dal menu a tendina:</p>
+  <select id="product_select" onchange="document.getElementById('product_id_input').value = this.value;">
+    <option value="">-- Seleziona un prodotto --</option>
+    {% for p in products %}
+      <option value="{{ p.product_id }}" {% if product and p.product_id == product.product_id %}selected{% endif %}>
+        {{ p.product_name }}
+      </option>
+    {% endfor %}
+  </select><br><br>
+
+  <form method="post">
+    <label>ID Prodotto:</label>
+    <input id="product_id_input" name="product_id" required value="{{ product.product_id if product else '' }}">
+    <input type="submit" value="Cerca">
+  </form>
+
+  {% if product %}
+    <h2>Dettagli Prodotto:</h2>
+    <ul>
+      <li><strong>ID:</strong> {{ product.product_id }}</li>
+      <li><strong>Nome:</strong> {{ product.product_name }}</li>
+      <li><strong>Prezzo non scontato:</strong> {{ product.actual_price }}</li>
+      <li><strong>Prezzo scontato:</strong> {{ product.discounted_price }}</li>
+      <li><strong>Sconto(%):</strong> {{ product.discount_percentage }}</li>
+      <li><strong>Rating:</strong> {{ product.rating }}</li>
+      <li><strong>Categorie:</strong> {{ product.categories | join(', ') }}</li>
+      <li><strong>Descrizione:</strong> {{ product.about_product }}</li>
+      <li><strong>Recensioni:</strong> {{ num_reviews }}</li>
+
+    </ul>
+  {% elif request.method == 'POST' %}
+    <p>Prodotto non trovato.</p>
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/add_review.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <title>Aggiungi Recensione</title>
+</head>
+<body>
+  {% include 'header.html' %}
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <h1>Aggiungi Recensione</h1>
+
+  <form method="post">
+    <label>ID Recensione:</label>
+    <input name="review_id" required><br>
+
+    <label>Prodotto:</label>
+    <select name="product_id" required>
+      <option value="">-- Seleziona un prodotto --</option>
+      {% for product in products %}
+        <option value="{{ product.product_id }}">{{ product.product_name }}</option>
+      {% endfor %}
+    </select><br>
+
+    <label>Utente:</label>
+    <select name="user_id" required>
+      <option value="">-- Seleziona un utente --</option>
+      {% for user in users %}
+        <option value="{{ user.user_id }}">{{ user.user_name }} ({{ user.user_id }})</option>
+      {% endfor %}
+    </select><br>
+
+    <label>Titolo Recensione:</label>
+    <input name="review_title" required><br>
+
+    <label>Contenuto Recensione:</label>
+    <input name="review_content" required><br>
+
+    <input type="submit" value="Aggiungi">
+  </form>
+
+  {% include 'footer.html' %}
+</body>
+</html>

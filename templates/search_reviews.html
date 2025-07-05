@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/search_review.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <title>Trova Recensione</title>
+</head>
+<body>
+  {% include 'header.html' %}
+  {% include 'footer.html' %}
+
+  <h1>Cerca Recensioni</h1>
+
+  <form method="post">
+    <label>Prodotto:</label>
+    <select name="product_id">
+      <option value="">-- Seleziona --</option>
+      {% for p in products %}
+        <option value="{{ p.product_id }}">{{ p.product_name }}</option>
+      {% endfor %}
+    </select><br>
+
+    <label>Utente:</label>
+    <select name="user_id">
+      <option value="">-- Seleziona --</option>
+      {% for u in users %}
+        <option value="{{ u.user_id }}">{{ u.user_name }} ({{ u.user_id }})</option>
+      {% endfor %}
+    </select><br>
+
+    <input type="submit" value="Cerca">
+  </form>
+
+  {% if results %}
+    <h2>Risultati:</h2>
+    <ul>
+      {% for r in results %}
+        <li>
+          <strong>{{ r.review_title }}</strong><br>
+          {{ r.review_content }}<br>
+          <em>Utente:</em> {{ r.user_name }} |
+          <em>Prodotto:</em> {{ r.product_name }}
+        </li>
+        <hr>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</body>
+</html>

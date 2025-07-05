@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+
+    <title>Home</title>
+</head>
+<body>
+    {% include 'header.html' %}
+    {% include 'footer.html' %}
+
+
+    <div class="container">
+        <div class="menu">
+            <button class="dropdown-btn">Prodotti</button>
+            <div class="dropdown-content">
+                <a href="/create_product">Crea prodotto</a>
+                <a href="/read_product">Leggi prodotto</a>
+                <a href="/update_product">Aggiorna prodotto</a>
+                <a href="/delete_product">Elimina prodotto</a>
+                <a href="/search_products">🔍 Trova prodotto</a>
+            </div>
+        </div>
+
+        <div class="menu">
+            <button class="dropdown-btn">Recensioni</button>
+            <div class="dropdown-content">
+                <a href="/add_review">Aggiungi recensione</a>
+                <a href="/read_review">Leggi recensione</a>
+                <a href="/update_review">Aggiorna recensione</a>
+                <a href="/remove_review">Rimuovi recensione</a>
+                <a href="/search_reviews">🔍 Trova recensione</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gestione apertura/chiusura menu a tendina
+        const buttons = document.querySelectorAll(".dropdown-btn");
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                btn.classList.toggle("active");
+                const content = btn.nextElementSibling;
+                content.style.display = content.style.display === "block" ? "none" : "block";
+            });
+        });
+    </script>
+</body>
+</html>

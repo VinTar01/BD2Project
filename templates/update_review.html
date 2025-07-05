@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/update_review.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <title>Aggiorna Recensione</title>
+  <script>
+    function submitProductForm() {
+      document.getElementById('product_form').submit();
+    }
+  </script>
+</head>
+<body>
+  {% include 'header.html' %}
+  {% include 'footer.html' %}
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flash-messages">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <h1>Aggiorna Recensione</h1>
+
+  <!-- Form per selezionare prodotto -->
+  <form id="product_form" method="post">
+    <label>Seleziona prodotto:</label>
+    <select name="product_id" onchange="submitProductForm()">
+      <option value="">-- Seleziona prodotto --</option>
+      {% for p in products %}
+        <option value="{{ p.product_id }}" {% if p.product_id == selected_product_id %}selected{% endif %}>
+          {{ p.product_name }} (ID: {{ p.product_id }})
+        </option>
+      {% endfor %}
+    </select>
+  </form>
+
+  {% if reviews %}
+    <!-- Form per selezionare recensione e aggiornarla -->
+    <form method="post">
+      <input type="hidden" name="product_id" value="{{ selected_product_id }}">
+      <label>Seleziona recensione da aggiornare:</label>
+      <select name="review_id" required>
+        <option value="">-- Seleziona recensione --</option>
+        {% for r in reviews %}
+          <option value="{{ r.review_id }}">{{ r.review_title }} (ID: {{ r.review_id }})</option>
+        {% endfor %}
+      </select><br><br>
+
+      <label>Nuovo Titolo:</label>
+      <input name="review_title" required><br>
+
+      <label>Nuovo Contenuto:</label>
+      <input name="review_content" required><br>
+
+      <input type="submit" value="Aggiorna">
+    </form>
+  {% endif %}
+</body>
+</html>

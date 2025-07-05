@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Elimina Prodotto</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/delete_product.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+{% include 'header.html' %}
+{% include 'footer.html' %}
+
+<h1>Elimina Prodotto</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul>
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<p>Seleziona un prodotto dall'elenco:</p>
+<select id="product_select" onchange="document.getElementById('product_id_input').value = this.value;">
+  <option value="">-- Seleziona un prodotto --</option>
+  {% for p in products %}
+    <option value="{{ p.product_id }}">{{ p.product_name }}</option>
+  {% endfor %}
+</select><br><br>
+
+<form method="post">
+  <label>ID Prodotto da eliminare:</label>
+  <input id="product_id_input" name="product_id" required>
+  <input type="submit" value="Elimina">
+</form>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/read_review.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <title>Visualizza Recensione</title>
+</head>
+<body>
+  {% include 'header.html' %}
+  {% include 'footer.html' %}
+
+  <h1>Leggi Recensione</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form id="product_form" method="post">
+    <label>Seleziona prodotto:</label>
+    <select name="product_id" onchange="submitProductForm()">
+      <option value="">-- Seleziona prodotto --</option>
+      {% for p in products %}
+        <option value="{{ p.product_id }}" {% if p.product_id == selected_product_id %}selected{% endif %}>
+          {{ p.product_name }} (ID: {{ p.product_id }})
+        </option>
+      {% endfor %}
+    </select>
+  </form>
+
+  {% if reviews %}
+    <form method="post">
+      <input type="hidden" name="product_id" value="{{ selected_product_id }}">
+      <label>Seleziona recensione:</label>
+      <select name="review_id" required>
+        <option value="">-- Seleziona recensione --</option>
+        {% for r in reviews %}
+          <option value="{{ r.review_id }}">{{ r.review_title }} (ID: {{ r.review_id }})</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Leggi">
+    </form>
+  {% endif %}
+
+  {% if selected_review %}
+  <h2>Dettagli Recensione</h2>
+  <ul>
+    <li><strong>ID recensione:</strong> {{ selected_review.review_id }}</li>
+    <li><strong>Titolo:</strong> {{ selected_review.review_title }}</li>
+    <li><strong>Contenuto:</strong> {{ selected_review.review_content }}</li>
+    <li><strong>ID utente:</strong> {{ selected_review.user_id }}</li>
+    <li><strong>Nome utente:</strong> {{ selected_user.user_name if selected_user }}</li>
+    <li><strong>ID prodotto:</strong> {{ selected_review.product_id }}</li>
+    <li><strong>Nome prodotto:</strong> {{ selected_product.product_name if selected_product }}</li>
+  </ul>
+{% endif %}
+
+
+  <script>
+    function submitProductForm() {
+      document.getElementById('product_form').submit();
+    }
+  </script>
+</body>
+</html>

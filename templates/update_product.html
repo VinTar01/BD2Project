@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/update_product.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <title>Aggiorna Prodotto</title>
+</head>
+<body>
+{% include 'header.html' %}
+{% include 'footer.html' %}
+
+<h1>Aggiorna Prodotto</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul>
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<p>Seleziona  un prodotto dall'elenco:</p>
+<select id="product_select" onchange="document.getElementById('product_id_input').value = this.value;">
+  <option value="">-- Seleziona un prodotto --</option>
+  {% for p in products %}
+    <option value="{{ p.product_id }}">{{ p.product_name }}</option>
+  {% endfor %}
+</select><br><br>
+
+<form method="post">
+  <label>ID Prodotto da aggiornare:</label>
+  <input id="product_id_input" name="product_id" required><br>
+
+  <label>Campi da aggiornare (lascia vuoto se non vuoi cambiarli):</label><br>
+
+  <label>Nome:</label><input name="product_name"><br>
+
+  <label>Prezzo reale (actual price):</label>
+  <input name="actual_price" placeholder="es. 1000 o ₹1000"><br>
+
+  <label>Sconto (%):</label>
+  <input name="discount_percentage" placeholder="es. 10"><br>
+
+  <label>Rating:</label><input name="rating"><br>
+
+  <label>Descrizione:</label><input name="about_product"><br>
+
+  <label>Link immagine:</label><input name="img_link"><br>
+
+  <label>Link prodotto:</label><input name="product_link"><br>
+
+  <label>Categorie (Ctrl+click per selezioni multiple):</label><br>
+  <select name="categories" multiple>
+    {% for cat in categories %}
+      <option value="{{ cat }}">{{ cat }}</option>
+    {% endfor %}
+  </select><br><br>
+
+  <input type="submit" value="Aggiorna">
+</form>
+</body>
+</html>

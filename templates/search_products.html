@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search_products.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+
+
+    <title>Ricerca Prodotti</title>
+</head>
+<body>
+    {% include 'header.html' %}
+    {% include 'footer.html' %}
+    <h1>Ricerca Prodotti</h1>
+
+    <form method="POST">
+        <label>Categoria:</label>
+        <select name="category_name">
+            <option value="">-- Seleziona una categoria --</option>
+            {% for cat in categories %}
+                <option value="{{ cat }}">{{ cat }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label>Rating minimo:</label>
+        <input type="number" step="0.1" name="min_rating"><br>
+
+        <label>Prezzo minimo:</label>
+        <input type="number" step="0.01" name="min_price"><br>
+
+        <label>Prezzo massimo:</label>
+        <input type="number" step="0.01" name="max_price"><br>
+
+        <input type="submit" value="Cerca">
+    </form>
+
+    {% if results %}
+        <h2>Risultati:</h2>
+        <ul>
+        {% for product in results %}
+            <li>
+                <strong>{{ product.product_name }}</strong><br>
+                Prezzo scontato: {{ product.discounted_price }}<br>
+                Rating: {{ product.rating }}<br>
+                Categorie:
+                {% if product.categories %}
+                    {{ product.categories | join(', ') }}
+                {% else %}
+                    <em>Nessuna categoria</em>
+                {% endif %}
+            </li>
+            <hr>
+        {% endfor %}
+        </ul>
+    {% elif request.method == 'POST' %}
+        <p><em>Nessun prodotto trovato.</em></p>
+    {% endif %}
+</body>
+</html>
