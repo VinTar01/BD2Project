@@ -1,0 +1,145 @@
+body {
+    background: linear-gradient(135deg, #f0f4f8, #e6ecf0);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #2980b9;
+    margin-top: 30px;
+}
+
+form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    max-width: 600px;
+    margin: 30px auto;
+}
+
+label {
+    font-weight: 600;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Pulsante Cerca verde */
+input.btn-search {
+    background-color: #28a745; /* verde */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s;
+    margin: 5px 10px 0 0;
+}
+
+input.btn-search:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Pulsante Annulla rosso */
+input.btn-reset {
+    background-color: #dc3545; /* rosso */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s;
+    margin: 5px 0 0 10px;
+}
+
+input.btn-reset:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+/* Lista risultati migliorata */
+.results-list {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 0;
+    list-style-type: none;
+}
+
+.results-list li {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.results-list li:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.results-list li strong {
+    font-size: 1.2em;
+    color: #2980b9;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.results-list li em {
+    color: #555;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.results-list li em + em {
+    margin-left: 15px;
+}
+
+hr {
+    border: none;
+    border-bottom: 1px solid #eee;
+    margin: 10px 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.pagination {
+    max-width: 600px;
+    margin: 20px auto 60px auto;
+    text-align: center;
+    font-weight: 600;
+    color: #555;
+}
+
+
+.btn-pagination {
+    background-color: #2980b9;
+    color: white;
+    padding: 8px 16px;
+    margin: 0 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-pagination:hover {
+    background-color: #1c5980;
+}

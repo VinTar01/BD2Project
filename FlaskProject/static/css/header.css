@@ -1,0 +1,52 @@
+/* Header comune */
+.site-header {
+    background: linear-gradient(135deg, #007BFF, #00c6ff);
+    padding: 25px;
+    text-align: center;
+    border-bottom: 3px solid #0056b3;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.site-header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.site-header a {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.site-header a:hover {
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+}
+.site-header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    display: inline-block; /* ✅ centrabile */
+    background-color: transparent; /* rimuove il giallo se lo avevi usato per debug */
+}
+
+.site-header {
+    background: linear-gradient(135deg, #007BFF, #00c6ff);
+    padding: 25px;
+    border-bottom: 3px solid #0056b3;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+}
+.site-header h1 a {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.site-header h1 a:hover {
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+}

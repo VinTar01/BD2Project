@@ -1,0 +1,152 @@
+/* Stile generale pagina */
+body {
+    background: linear-gradient(135deg, #f0f4f8, #e6ecf0);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #c0392b;
+    margin-top: 30px;
+}
+
+p {
+    text-align: center;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* Form e select */
+form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    max-width: 500px;
+    margin: 30px auto;
+    text-align: center;
+}
+
+select, button {
+    width: 100%;
+    padding: 12px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+select:focus, button:focus {
+    outline: none;
+    border-color: #e74c3c;
+    box-shadow: 0 0 6px rgba(231, 76, 60, 0.6);
+}
+
+button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* Messaggi flash */
+ul {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+}
+
+ul li {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Modale sfondo */
+.modal {
+    display: none; /* nascosta di default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* sfondo semi-trasparente */
+}
+
+/* Contenuto della modale */
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-width: 400px;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Bottoni nella modale */
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    margin: 0 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.modal-buttons button:hover {
+    background-color: #c0392b;
+}
+/* Campo input per la ricerca */
+input[type="text"] {
+    width: 100%;
+    padding: 12px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #e74c3c;
+    box-shadow: 0 0 6px rgba(231, 76, 60, 0.6);
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/remove_review.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <title>Rimuovi Recensione</title>
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <h1><i class="fas fa-trash"></i> Rimuovi Recensione</h1>
+
+  {% if session.get('just_removed') %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="{{ category }}">
+          <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+  {% endif %}
+
+
+  <form method="post" id="searchForm">
+    <input type="hidden" name="action" value="search">
+    <label>Filtra per nome prodotto:</label>
+    <input type="text" name="search_prefix" placeholder="Prefisso prodotto" value="{{ search_prefix or '' }}">
+
+    <label>Seleziona Prodotto:</label>
+    <select name="product_id">
+      <option value="">-- Seleziona prodotto --</option>
+      {% for p in products %}
+        <option value="{{ p.product_id }}" {% if selected_product_id == p.product_id %}selected{% endif %}>
+          {{ p.product_name }} (ID: {{ p.product_id }})
+        </option>
+      {% endfor %}
+    </select>
+
+    <div class="button-group">
+      <button type="submit">Cerca</button>
+      <a href="{{ url_for('remove_review_route') }}" class="cancel-btn">Annulla</a>
+    </div>
+  </form>
+
+
+  {% if reviews and reviews|length > 0 %}
+  <form method="post" id="removeReviewForm">
+    <input type="hidden" name="product_id" value="{{ selected_product_id }}">
+    <input type="hidden" name="search_prefix" value="{{ search_prefix }}">
+    <input type="hidden" name="action" value="remove">
+
+    <label>Seleziona Recensione:</label>
+    <select name="review_id" required>
+      <option value="">-- Seleziona recensione --</option>
+      {% for r in reviews %}
+        <option value="{{ r.review_id }}">{{ r.review_title }} (ID: {{ r.review_id }})</option>
+      {% endfor %}
+    </select>
+
+    <div class="button-group">
+      <button type="submit">Rimuovi</button>
+      <a href="{{ url_for('remove_review_route') }}" class="cancel-btn">Annulla</a>
+    </div>
+  </form>
+  {% endif %}
+  <script>
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const flashMessages = document.querySelectorAll('.flash-messages li');
+    flashMessages.forEach(msg => {
+      setTimeout(() => {
+        msg.style.transition = 'opacity 0.5s ease';
+        msg.style.opacity = '0';
+        setTimeout(() => msg.style.display = 'none', 500);
+      }, 4000); // 4 secondi
+    });
+  });
+</script>
+
+
+  <style>
+    .button-group {
+      margin-top: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .cancel-btn {
+      background-color: #6c757d;
+      color: white;
+      font-weight: bold;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .cancel-btn:hover {
+      background-color: #5a6268;
+    }
+
+    button[type="submit"] {
+      background-color: #e74c3c;
+      color: white;
+      font-weight: bold;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(231, 76, 60, 0.4);
+    }
+
+    button[type="submit"]:hover {
+      background-color: #c0392b;
+      box-shadow: 0 6px 12px rgba(192, 57, 43, 0.6);
+    }
+    .success {
+  color: #e74c3c;  /* rosso vivo */
+  background-color: #fbeaea;
+  border: 1px solid #e0b4b4;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  list-style: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+.flash-messages {
+  padding: 0;
+  margin: 20px 0;
+}
+
+.flash-messages li {
+  position: relative;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  list-style: none;
+  font-weight: bold;
+  font-size: 16px;
+  transition: opacity 0.5s ease; /* fade-out */
+}
+
+
+/* Forziamo "success" a essere rosso */
+.success {
+  color: #c0392b; /* testo rosso scuro */
+  background-color: #fcebea; /* sfondo rosso chiaro */
+  border: 1px solid #e0b4b4;
+}
+
+/* Pulsante "X" per chiudere */
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #888;
+  cursor: pointer;
+  user-select: none;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+  </style>
+
+  {% include 'footer.html' %}
+</body>
+</html>

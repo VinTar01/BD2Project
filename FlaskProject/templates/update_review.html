@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/update_review.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Aggiorna Recensione</title>
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <h1><i class="fas fa-pen-to-square"></i> Aggiorna Recensione</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <li class="{{ category }}"><i class="fas fa-info-circle"></i> {{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="post">
+    <label><i class="fas fa-box"></i> Cerca Prodotto:</label>
+    <input type="text" id="product_search" placeholder="Digita il prefisso...">
+
+    <label><i class="fas fa-box"></i> Seleziona Prodotto:</label>
+    <select name="product_id" id="product_select" onchange="this.form.submit()" required>
+      <option value="">-- Seleziona prodotto --</option>
+      {% for p in products %}
+        <option value="{{ p.product_id }}" {% if selected_product_id == p.product_id %}selected{% endif %}>
+          {{ p.product_name }} (ID: {{ p.product_id }})
+        </option>
+      {% endfor %}
+    </select>
+
+    <div class="button-group">
+      <input type="submit" value="Cerca">
+      <a href="{{ url_for('update_review_route') }}" class="cancel-btn"><i class="fas fa-times"></i> Annulla</a>
+    </div>
+  </form>
+
+  {% if reviews %}
+    <form method="post">
+      <input type="hidden" name="product_id" value="{{ selected_product_id }}">
+
+      <label><i class="fas fa-file-signature"></i> Seleziona Recensione:</label>
+      <select name="review_id" onchange="this.form.submit()" required>
+        <option value="">-- Seleziona recensione --</option>
+        {% for r in reviews %}
+          <option value="{{ r.review_id }}" {% if selected_review and selected_review.review_id == r.review_id %}selected{% endif %}>
+            {{ r.review_title }} (ID: {{ r.review_id }})
+          </option>
+        {% endfor %}
+      </select>
+    </form>
+  {% endif %}
+
+  {% if selected_review %}
+    <div id="edit_form_wrapper" class="fade-in">
+      <p class="info-message"><i class="fas fa-check-circle"></i> Hai selezionato <strong>{{ selected_review.review_title }}</strong>. Modifica i dettagli qui sotto 👇</p>
+
+      <form method="post">
+        <input type="hidden" name="product_id" value="{{ selected_product_id }}">
+        <input type="hidden" name="review_id" value="{{ selected_review.review_id }}">
+
+        <label><i class="fas fa-heading"></i> Titolo Recensione:</label>
+        <input type="text" name="review_title" value="{{ selected_review.review_title }}" required>
+
+        <label><i class="fas fa-align-left"></i> Contenuto Recensione:</label>
+        <textarea name="review_content" rows="4" required>{{ selected_review.review_content }}</textarea>
+
+        <div class="button-group">
+          <input type="submit" value="Aggiorna">
+          <a href="{{ url_for('update_review_route') }}" class="cancel-btn"><i class="fas fa-times"></i> Annulla</a>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+
+  {% include 'footer.html' %}
+
+  {% if selected_review %}
+  <script>
+    window.onload = function() {
+      const editForm = document.getElementById('edit_form_wrapper');
+      if (editForm) {
+        editForm.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+  </script>
+  {% endif %}
+
+  <script>
+    const searchInput = document.getElementById('product_search');
+    const productSelect = document.getElementById('product_select');
+    const originalOptions = Array.from(productSelect.options);
+
+    searchInput.addEventListener('input', function () {
+      const prefix = this.value.toLowerCase();
+      productSelect.innerHTML = '';
+
+      const filtered = originalOptions.filter(opt =>
+        opt.text.toLowerCase().startsWith(prefix) || opt.value === ''
+      );
+
+      filtered.forEach(opt => productSelect.appendChild(opt));
+    });
+  </script>
+</body>
+</html>

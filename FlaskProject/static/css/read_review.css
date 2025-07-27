@@ -1,0 +1,73 @@
+body {
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 30px;
+  color: #333;
+}
+
+h1, h2 {
+  color: #2c3e50;
+}
+
+form {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  margin-bottom: 30px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+/* Aggiunta input testo per prefisso prodotto */
+input[type="text"],
+select,
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+input[type="text"] {
+  margin-bottom: 10px;
+  /* leggero padding extra per il testo */
+}
+
+/* Pulsante invio */
+input[type="submit"] {
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+  background-color: #0066cc;
+}
+
+.review-details {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 30px auto;
+  width: 95%;
+  max-width: 1200px;
+  margin-bottom: 60px; /* Spazio dal footer */
+}
+
+.review-details p {
+  margin-bottom: 12px;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aggiungi Recensione</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/add_review.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+
+  {% include 'header.html' %}
+
+  <h1>Aggiungi Recensione</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="post" id="reviewForm">
+    <label for="review_id">ID Recensione:</label>
+    <input type="text" name="review_id" id="review_id" required>
+
+    <label for="product_id">Prodotto:</label>
+    <select name="product_id" id="product_id" required>
+      <option value="">-- Seleziona un prodotto --</option>
+      {% for product in products %}
+        <option value="{{ product.product_id }}">{{ product.product_name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="user_id">Utente:</label>
+    <select name="user_id" id="user_id" required>
+      <option value="">-- Seleziona un utente --</option>
+      {% for user in users %}
+        <option value="{{ user.user_id }}">{{ user.user_name }} ({{ user.user_id }})</option>
+      {% endfor %}
+    </select>
+
+    <label for="review_title">Titolo Recensione:</label>
+    <input type="text" name="review_title" id="review_title" required>
+
+    <label for="review_content">Contenuto Recensione:</label>
+    <textarea name="review_content" id="review_content" required></textarea>
+
+    <!-- Pulsanti -->
+    <input type="submit" value="Aggiungi Recensione">
+    <button type="button" onclick="resetForm()">Annulla</button>
+  </form>
+
+  <script>
+    function resetForm() {
+      document.getElementById('reviewForm').reset();
+    }
+  </script>
+
+  {% include 'footer.html' %}
+</body>
+</html>
+

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leggi Prodotto</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/read_product.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <style>
+    .centered-title {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .button-row input[type="submit"],
+    .button-row button {
+      padding: 10px 20px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+    .button-row input[type="submit"] {
+      background-color: #1e90ff;
+      color: white;
+    }
+    .button-row input[type="submit"]:hover {
+      background-color: #0066cc;
+    }
+    .button-row button {
+      background-color: #ccc;
+      color: #333;
+    }
+    .button-row button:hover {
+      background-color: #bbb;
+    }
+  </style>
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <h1 class="centered-title">Leggi Prodotto</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="post" id="searchForm">
+    <p>Digita il nome del prodotto:</p>
+    <input type="text" id="product_name" name="product_name" list="product_list"
+           placeholder="Scrivi il nome del prodotto" value="{{ search_prefix }}"
+           style="width: 100%; min-width: 300px; padding: 10px; font-size: 16px;" required
+           oninput="filterOptions(this.value)">
+
+    <datalist id="product_list">
+      {% for p in products %}
+        <option value="{{ p.product_name }}"></option>
+      {% endfor %}
+    </datalist>
+
+    <div class="button-row">
+      <input type="submit" value="Cerca">
+      <button type="button" onclick="window.location.href=window.location.pathname">Annulla</button>
+    </div>
+  </form>
+
+  {% if product %}
+    <h2 class="centered-title">Dettagli Prodotto</h2>
+    <ul>
+      <li><strong>ID:</strong> {{ product.product_id }}</li>
+      <li><strong>Nome:</strong> {{ product.product_name }}</li>
+      <li><strong>Prezzo non scontato:</strong> {{ product.actual_price }}</li>
+      <li><strong>Prezzo scontato:</strong> {{ product.discounted_price }}</li>
+      <li><strong>Sconto(%):</strong> {{ product.discount_percentage }}</li>
+      <li><strong>Rating:</strong> {{ product.rating }}</li>
+      <li><strong>Categorie:</strong> {{ product.categories | join(', ') }}</li>
+      <li><strong>Descrizione:</strong> {{ product.about_product }}</li>
+      <li><strong>Recensioni:</strong> {{ product.reviews | length }}</li>
+    </ul>
+  {% elif request.method == 'POST' %}
+    <p style="text-align:center;">Prodotto non trovato.</p>
+  {% endif %}
+
+  {% include 'footer.html' %}
+
+  <script>
+    function filterOptions(prefix) {
+      const datalist = document.getElementById('product_list');
+      const allOptions = Array.from(datalist.options);
+      const filtered = allOptions.filter(option =>
+        option.value.toLowerCase().startsWith(prefix.toLowerCase())
+      );
+
+      datalist.innerHTML = '';
+      filtered.forEach(opt => datalist.appendChild(opt.cloneNode(true)));
+    }
+  </script>
+</body>
+</html>

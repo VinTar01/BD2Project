@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ricerca Prodotti</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/search_products.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <div class="centered-content">
+    <h1>Ricerca Prodotti</h1>
+
+    <form method="post">
+      <label>Categoria:</label>
+      <select name="category_name">
+        <option value="">-- Tutte --</option>
+        {% for c in categories %}
+          <option value="{{ c }}" {% if request.form.get('category_name') == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label>Rating minimo:</label>
+      <input type="number" step="0.1" name="min_rating" value="{{ request.form.get('min_rating', '') }}"><br>
+
+      <label>Prezzo minimo:</label>
+      <input type="number" name="min_price" value="{{ request.form.get('min_price', '') }}"><br>
+
+      <label>Prezzo massimo:</label>
+      <input type="number" name="max_price" value="{{ request.form.get('max_price', '') }}"><br>
+
+      <input type="submit" value="Cerca">
+
+      <button type="button" onclick="window.location.href='{{ url_for('search_products') }}'" class="cancel-btn">
+        Annulla ricerca
+      </button><br>
+
+
+      {% if results %}
+        <label>Seleziona un prodotto per vedere i dettagli:</label>
+        <select name="product_id" id="product_select" onchange="this.form.submit()">
+          <option value="">-- Nessuno --</option>
+          {% for p in products %}
+            <option value="{{ p.product_id }}" {% if selected_product and p.product_id == selected_product.product_id %}selected{% endif %}>
+              {{ p.product_name }}
+            </option>
+          {% endfor %}
+        </select><br>
+      {% endif %}
+    </form>
+  </div>
+
+
+  {% if request.method == 'POST' and results and not selected_product %}
+    <h2>Risultati:</h2>
+    <ul id="product_list">
+      {% for r in results %}
+        <li>
+          <strong>{{ r.product_name }}</strong> — Prezzo: {{ r.discounted_price }} — Rating: {{ r.rating }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif request.method == 'POST' and not results and not selected_product %}
+    <div class="overlay">
+      <div class="alert prominent">
+        <strong>Avviso:</strong> Nessun prodotto trovato.
+        <br><br>
+        <button onclick="closeAlert()" class="close-btn">Chiudi</button>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if selected_product %}
+
+    <form id="reset_product_form" method="post" style="margin-top: 10px;">
+      <input type="hidden" name="category_name" value="{{ request.form.get('category_name', '') }}">
+      <input type="hidden" name="min_rating" value="{{ request.form.get('min_rating', '') }}">
+      <input type="hidden" name="min_price" value="{{ request.form.get('min_price', '') }}">
+      <input type="hidden" name="max_price" value="{{ request.form.get('max_price', '') }}">
+      <!-- NON includiamo product_id -->
+      <button type="submit" class="back-btn">Torna ai risultati</button>
+    </form>
+  {% endif %}
+
+  {% if selected_product %}
+    <h2>Dettagli Prodotto Selezionato</h2>
+    <ul>
+      <li><strong>ID:</strong> {{ selected_product.product_id }}</li>
+      <li><strong>Nome:</strong> {{ selected_product.product_name }}</li>
+      <li><strong>Prezzo non scontato:</strong> {{ selected_product.actual_price }}</li>
+      <li><strong>Prezzo scontato:</strong> {{ selected_product.discounted_price }}</li>
+      <li><strong>Sconto (%):</strong> {{ selected_product.discount_percentage }}</li>
+      <li><strong>Rating:</strong> {{ selected_product.rating }}</li>
+      <li><strong>Categorie:</strong> {{ selected_product.categories | join(', ') }}</li>
+      <li><strong>Descrizione:</strong> {{ selected_product.about_product }}</li>
+    </ul>
+  {% endif %}
+
+  {% include 'footer.html' %}
+
+  <script>
+    function closeAlert() {
+      const overlay = document.querySelector('.overlay');
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

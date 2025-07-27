@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/update_product.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Aggiorna Prodotto</title>
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <h1><i class="fas fa-edit"></i> Aggiorna Prodotto</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <li class="{{ category }}"><i class="fas fa-info-circle"></i> {{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Campo per cercare -->
+  <label><i class="fas fa-search"></i> Cerca prodotto per prefisso:</label>
+  <input type="text" id="searchInput" placeholder="Es: iph, sam..." oninput="filterProducts()" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+
+  <!-- Selettore dinamico -->
+  <form method="post" id="productForm">
+    <label><i class="fas fa-box"></i> Seleziona Prodotto:</label>
+    <select name="product_id" id="productSelect" required onchange="document.getElementById('productForm').submit()">
+      <option value="">-- Seleziona prodotto --</option>
+      {% for p in products %}
+        <option value="{{ p.product_id }}" {% if product and p.product_id == product.product_id %}selected{% endif %}>
+          {{ p.product_name }} (ID: {{ p.product_id }})
+        </option>
+      {% endfor %}
+    </select>
+  </form>
+
+  <script>
+    const products = {{ products | tojson }};
+    const select = document.getElementById('productSelect');
+    const input = document.getElementById('searchInput');
+
+    function filterProducts() {
+      const prefix = input.value.toLowerCase();
+      select.innerHTML = '<option value="">-- Seleziona prodotto --</option>';
+
+      products.forEach(p => {
+        if (p.product_name.toLowerCase().startsWith(prefix)) {
+          const opt = document.createElement('option');
+          opt.value = p.product_id;
+          opt.textContent = `${p.product_name} (ID: ${p.product_id})`;
+          select.appendChild(opt);
+        }
+      });
+    }
+  </script>
+
+  {% if product %}
+    <div id="edit_form_wrapper" class="fade-in">
+      <p class="info-message"><i class="fas fa-check-circle"></i> Hai selezionato <strong>{{ product.product_name }}</strong>. Ora puoi modificarlo 👇</p>
+
+      <form method="post">
+  <input type="hidden" name="product_id" value="{{ product.product_id }}">
+
+  <label><i class="fas fa-tag"></i> Nome Prodotto:</label>
+  <input type="text" name="product_name" value="{{ product.product_name }}" >
+
+  <label><i class="fas fa-dollar-sign"></i> Prezzo Attuale:</label>
+  <input type="number" step="0.01" min="0" name="price" value="{{ product.price }}" >
+
+  <label><i class="fas fa-percent"></i> Sconto (%):</label>
+  <input type="number" step="0.01" min="0" max="100" name="discount" value="{{ product.discount or 0 }}">
+
+  <label><i class="fas fa-star"></i> Valutazione:</label>
+  <input type="number" step="0.1" min="0" max="5" name="rating" value="{{ product.rating or '' }}">
+
+  <label><i class="fas fa-link"></i> Link di riferimento:</label>
+  <input type="url" name="ref_link" value="{{ product.ref_link or '' }}">
+
+  <label><i class="fas fa-align-left"></i> Descrizione:</label>
+  <textarea name="product_description" rows="4" >{{ product.product_description }}</textarea>
+
+  <label><i class="fas fa-layer-group"></i> Categoria:</label>
+  <select name="product_category" >
+    <option value="">-- Seleziona categoria --</option>
+    {% for c in categories %}
+      <option value="{{ c }}" {% if product.product_category == c %}selected{% endif %}>{{ c }}</option>
+    {% endfor %}
+  </select>
+
+  <div class="button-group">
+    <input type="submit" value="Aggiorna">
+    <a href="{{ url_for('update_product_route') }}" class="cancel-btn"><i class="fas fa-times"></i> Annulla</a>
+  </div>
+</form>
+
+    </div>
+
+    <script>
+      window.onload = function() {
+        const editForm = document.getElementById('edit_form_wrapper');
+        if (editForm) {
+          editForm.scrollIntoView({ behavior: 'smooth' });
+        }
+      };
+    </script>
+  {% endif %}
+
+  {% include 'footer.html' %}
+</body>
+</html>

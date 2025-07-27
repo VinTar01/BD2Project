@@ -1,0 +1,104 @@
+<!-- search_reviews.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/search_review.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+  <title>Trova Recensione</title>
+  <script>
+    function filterOptions(inputId, selectId) {
+      const input = document.getElementById(inputId).value.toLowerCase();
+      const select = document.getElementById(selectId);
+      const options = select.querySelectorAll('option');
+
+      options.forEach((option, index) => {
+        if (index === 0) return;
+        option.style.display = option.textContent.toLowerCase().includes(input) ? 'block' : 'none';
+      });
+    }
+
+    function resetFilters(event) {
+      event.preventDefault();
+      document.getElementById('productFilter').value = '';
+      document.getElementById('productSelect').selectedIndex = 0;
+      document.getElementById('userSelect').selectedIndex = 0;
+      document.getElementById('searchForm').submit();
+    }
+
+    function resetUserSelect() {
+      document.getElementById('userSelect').selectedIndex = 0;
+    }
+  </script>
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <h1>Cerca Recensioni</h1>
+
+  <form method="post" id="searchForm">
+    <label>Prodotto:</label>
+    <input type="text" id="productFilter" placeholder="Digita per filtrare prodotti...">
+
+    <select name="product_id" id="productSelect" onchange="resetUserSelect();">
+      <option value="">-- Seleziona --</option>
+      {% for p in products %}
+        <option value="{{ p.product_id }}" {% if selected_product == p.product_id %}selected{% endif %}>{{ p.product_name }}</option>
+      {% endfor %}
+    </select><br>
+
+    <label>Utente:</label>
+    <select name="user_id" id="userSelect">
+      <option value="">-- Seleziona --</option>
+      {% for u in users %}
+        <option value="{{ u.user_id }}" {% if selected_user == u.user_id %}selected{% endif %}>{{ u.user_name }} ({{ u.user_id }})</option>
+      {% endfor %}
+    </select><br>
+
+    <input type="submit" name="search" value="Cerca" class="btn-search">
+    <input type="submit" name="reset" value="Annulla" class="btn-reset" onclick="resetFilters(event)">
+  </form>
+
+  {% if results is not none %}
+    {% if results %}
+      <h2>Risultati:</h2>
+      <ul class="results-list">
+        {% for r in results %}
+          <li>
+            <strong>{{ r.review_title }}</strong>
+            <p>{{ r.review_content }}</p>
+            <em>Utente:</em> {{ r.user_name }}<br>
+            <em>Prodotto:</em> {{ r.product_name }}
+          </li>
+        {% endfor %}
+      </ul>
+      <div class="pagination">
+        {% if page > 1 %}
+          <a href="{{ url_for('search_reviews', page=page-1, product_id=selected_product, user_id=selected_user) }}" class="btn-pagination">« Precedente</a>
+        {% endif %}
+        <span>Pagina {{ page }} di {{ (total // per_page) + (1 if total % per_page > 0 else 0) }}</span>
+        {% if page * per_page < total %}
+          <a href="{{ url_for('search_reviews', page=page+1, product_id=selected_product, user_id=selected_user) }}" class="btn-pagination">Successivo »</a>
+        {% endif %}
+      </div>
+    {% else %}
+      <p style="text-align:center; font-size: 18px; color: #888;">Nessuna recensione trovata.</p>
+    {% endif %}
+  {% endif %}
+
+  <div style="margin-bottom: 50px;"></div>
+  {% include 'footer.html' %}
+
+  <script>
+    document.getElementById('productFilter').addEventListener('input', function() {
+      const filter = this.value.toLowerCase();
+      const select = document.getElementById('productSelect');
+      const options = select.options;
+      for (let i = 0; i < options.length; i++) {
+        const txt = options[i].text.toLowerCase();
+        options[i].style.display = txt.startsWith(filter) ? '' : 'none';
+      }
+    });
+  </script>
+</body>
+</html>

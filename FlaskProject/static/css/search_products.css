@@ -1,0 +1,174 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    max-width: 400px;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+h2 {
+    margin-top: 30px;
+    color: #333;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 12px;
+    background-color: #ffffff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.centered-content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.centered-content h1 {
+  margin-bottom: 25px;
+}
+
+.centered-content form {
+  text-align: left;
+}
+.centered-content p.no-results {
+  font-style: italic;
+  color: #555;
+  margin-top: 20px;
+  text-align: center;
+}
+.alert {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.alert.warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  box-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
+}
+/* Sfondo semitrasparente */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Messaggio centrato in primo piano */
+.alert.prominent {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  padding: 25px 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  max-width: 400px;
+}
+
+/* Bottone di chiusura */
+.close-btn {
+  background-color: #856404;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.close-btn:hover {
+  background-color: #5c4403;
+}
+.cancel-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+}
+.back-btn {
+  background-color: #007BFF; /* blu */
+  color: white;              /* testo bianco */
+  border: none;              /* niente bordo */
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  box-shadow: none;
+}
+
+/* colore più scuro al passaggio del mouse */
+.back-btn:hover {
+  background-color: #0056b3;
+}
+

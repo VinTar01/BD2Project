@@ -1,0 +1,124 @@
+body {
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 30px;
+    color: #333;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-width: 600px;
+    margin-bottom: 30px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li.success {
+    color: green;
+}
+
+li.danger {
+    color: red;
+}
+
+li.warning {
+    color: orange;
+}
+
+.info-message {
+    background-color: #e6ffed;
+    border-left: 6px solid #28a745;
+    padding: 10px 15px;
+    margin: 15px 0;
+    border-radius: 6px;
+    color: #28a745;
+    font-weight: 500;
+}
+
+.cancel-btn {
+    display: inline-block;
+    background-color: #dc3545;
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    margin-top: 20px;
+    margin-left: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+#edit_form_wrapper {
+  max-width: 600px;
+  margin: 40px auto 80px auto; /* spazio sopra (40px), sotto (80px), centrato orizzontalmente */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
